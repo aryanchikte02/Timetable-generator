@@ -1,0 +1,57 @@
+.about-container {
+  background: linear-gradient(-45deg, #fdfbfb, #ebedee, #e6e9f0, #fefefe);
+  background-size: 500% 500%;
+  animation: moveGradient 20s ease infinite;
+  min-height: 100vh;
+  padding: 50px 20px;
+  font-family: 'Segoe UI', sans-serif;
+  color: #333;
+}
+
+@keyframes moveGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.about-hero {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.about-hero h1 {
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+
+.about-hero p {
+  font-size: 1.2rem;
+  color: #555;
+}
+
+.about-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 30px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.about-card {
+  background: white;
+  border-radius: 15px;
+  padding: 30px 20px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.about-card:hover {
+  transform: translateY(-5px);
+}
+
+.about-icon {
+  font-size: 40px;
+  margin-bottom: 15px;
+  color: #6c63ff;
+}

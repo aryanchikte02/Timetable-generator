@@ -11,3 +11,116 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* ===== TIMETABLE NAMESPACE ===== */
+
+.tt-container {
+  display: flex;
+  gap: 30px;
+  padding: 30px;
+}
+
+/* ===== FORM ===== */
+
+.tt-form {
+  width: 300px;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.tt-title {
+  margin-bottom: 15px;
+}
+
+.tt-label {
+  font-size: 13px;
+  font-weight: bold;
+  margin-top: 10px;
+  display: block;
+}
+
+.tt-input,
+.tt-select {
+  width: 100%;
+  padding: 8px;
+  margin: 6px 0 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+}
+
+.tt-color {
+  width: 100%;
+  height: 40px;
+  margin-bottom: 15px;
+  border: none;
+}
+
+.tt-btn {
+  width: 100%;
+  padding: 10px;
+  background: #4f46e5;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.tt-btn:hover {
+  background: #4338ca;
+}
+
+/* ===== TABLE ===== */
+
+.tt-table-wrapper {
+  background: #ffffff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  overflow-x: auto;
+}
+
+.tt-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 720px;
+}
+
+.tt-th {
+  background: #374151;
+  color: white;
+  padding: 12px;
+  font-size: 14px;
+}
+
+.tt-td {
+  height: 70px;
+  border: 1px solid #e5e7eb;
+  text-align: center;
+}
+
+.tt-time {
+  background: #f3f4f6;
+  font-weight: bold;
+}
+
+/* ===== ACTIVITY BLOCK ===== */
+
+.tt-activity {
+  padding: 6px;
+  border-radius: 6px;
+  color: white;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.tt-subject {
+  font-size: 14px;
+}
+
+.tt-meta {
+  font-size: 11px;
+  opacity: 0.9;
+}

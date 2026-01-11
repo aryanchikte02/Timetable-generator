@@ -36,3 +36,14 @@
     transform: rotate(360deg);
   }
 }
+
+.navbar-nav .nav-link {
+  transition: all 0.3s ease;
+  font-size: 1.1rem;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #ffd700 !important;
+  transform: scale(1.05);
+}
+

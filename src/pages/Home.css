@@ -1,0 +1,73 @@
+/* .blue-white-striping tbody tr:nth-child(odd) {
+  background-color: #0d6efd; 
+  color: white;
+}
+
+.blue-white-striping tbody tr:nth-child(even) {
+  background-color: white;
+  color: black;
+} */
+
+.home-container {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(-45deg, #ff6ec4, #7873f5, #4fd1c5, #43e97b);
+  background-size: 600% 600%;
+  animation: gradientFlow 12s ease infinite;
+  color: white;
+}
+
+@keyframes gradientFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.home-logo {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 20px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.home-heading {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.home-subtext {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  opacity: 0.85;
+}
+
+
+.home-container h1{
+  font-weight: 700;
+}
+.home-container p{
+  font-weight: 400;
+}
