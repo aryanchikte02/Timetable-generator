@@ -47,3 +47,57 @@
   transform: scale(1.05);
 }
 
+/* ===== Common Page Background ===== */
+.page-bg {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e3f2fd, #f8f9fa);
+  padding: 40px 0;
+}
+
+/* ===== Card Style ===== */
+.card-custom {
+  background: #ffffff;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== Table Styling ===== */
+.table thead th {
+  vertical-align: middle;
+  font-weight: 600;
+}
+
+.table td {
+  vertical-align: middle;
+}
+
+/* ===== Headings ===== */
+.page-title {
+  font-weight: 700;
+  color: #0d6efd;
+}
+
+/* ===== Buttons ===== */
+.btn-success,
+.btn-primary {
+  border-radius: 25px;
+  padding: 8px 20px;
+}
+.page-bg {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e3f2fd, #f8f9fa);
+  padding: 40px 0;
+}
+
+.card-custom {
+  background: #ffffff;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.page-title {
+  font-weight: 700;
+  color: #0d6efd;
+}

@@ -1,115 +1,119 @@
 import React, { useState } from "react";
-import TimetableGrid from "./TimetableGrid";
-
-const days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
-const times = ["09:00", "10:00", "11:00", "12:00", "01:00", "02:00"];
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import "./AddTimetable.css";
 
 const AddTimetable = () => {
-  const [activity, setActivity] = useState({
-    subject: "",
-    teacher: "",
-    classroom: "",
-    day: "Mon",
-    time: "09:00",
-    color: "#6366f1",
+  const navigate = useNavigate();
+
+  const [user, setUser] = useState({
+    mondaySubject: "",
+    mondayTeacher: "",
+    mondayLocation: "",
+
+    tuesdaySubject: "",
+    tuesdayTeacher: "",
+    tuesdayLocation: "",
+
+    wednesdaySubject: "",
+    wednesdayTeacher: "",
+    wednesdayLocation: "",
+
+    thursdaySubject: "",
+    thursdayTeacher: "",
+    thursdayLocation: "",
+
+    fridaySubject: "",
+    fridayTeacher: "",
+    fridayLocation: "",
   });
 
-  const [activities, setActivities] = useState([]);
+  const onChange = (e) => {
+    setUser({ ...user, [e.target.name]: e.target.value });
+  };
 
-  const addActivity = () => {
-    if (!activity.subject) return;
-
-    setActivities([...activities, activity]);
-
-    setActivity({
-      subject: "",
-      teacher: "",
-      classroom: "",
-      day: "Mon",
-      time: "09:00",
-      color: "#6366f1",
-    });
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    await axios.post("http://localhost:8080/user", user);
+    navigate("/timetable");
   };
 
   return (
-    <div className="tt-container">
-      {/* LEFT FORM */}
-      <div className="tt-form">
-        <h3 className="tt-title">Add Timetable</h3>
+    <div className="add-bg">
+      <div className="container">
+        <div className="add-card">
 
-        <label className="tt-label">Subject</label>
-        <input
-          className="tt-input"
-          value={activity.subject}
-          placeholder="Subject Name"
-          onChange={(e) =>
-            setActivity({ ...activity, subject: e.target.value })
-          }
-        />
+          <h2 className="text-center mb-4 add-title">
+            Add Timetable
+          </h2>
 
-        <label className="tt-label">Teacher</label>
-        <input
-          className="tt-input"
-          value={activity.teacher}
-          placeholder="Teacher Name"
-          onChange={(e) =>
-            setActivity({ ...activity, teacher: e.target.value })
-          }
-        />
+          <form onSubmit={onSubmit}>
+            <table className="table table-bordered table-hover text-center add-table">
+              <thead>
+                <tr>
+                  <th>Day</th>
+                  <th>Subject</th>
+                  <th>Teacher</th>
+                  <th>Classroom</th>
+                </tr>
+              </thead>
 
-        <label className="tt-label">Classroom</label>
-        <input
-          className="tt-input"
-          value={activity.classroom}
-          placeholder="Classroom"
-          onChange={(e) =>
-            setActivity({ ...activity, classroom: e.target.value })
-          }
-        />
+              <tbody>
+                {[
+                  ["Monday", "monday"],
+                  ["Tuesday", "tuesday"],
+                  ["Wednesday", "wednesday"],
+                  ["Thursday", "thursday"],
+                  ["Friday", "friday"],
+                ].map(([day, key]) => (
+                  <tr key={day}>
+                    <td><strong>{day}</strong></td>
+                    <td>
+                      <input
+                        className="form-control add-input"
+                        name={`${key}Subject`}
+                        onChange={onChange}
+                        required
+                      />
+                    </td>
+                    <td>
+                      <input
+                        className="form-control add-input"
+                        name={`${key}Teacher`}
+                        onChange={onChange}
+                        required
+                      />
+                    </td>
+                    <td>
+                      <input
+                        className="form-control add-input"
+                        name={`${key}Location`}
+                        onChange={onChange}
+                        required
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
 
-        <label className="tt-label">Day</label>
-        <select
-          className="tt-select"
-          value={activity.day}
-          onChange={(e) =>
-            setActivity({ ...activity, day: e.target.value })
-          }
-        >
-          {days.map((d) => (
-            <option key={d}>{d}</option>
-          ))}
-        </select>
+            <div className="text-center mt-4">
+              <button className="btn btn-success add-btn-save me-3">
+                💾 Save Timetable
+              </button>
 
-        <label className="tt-label">Time</label>
-        <select
-          className="tt-select"
-          value={activity.time}
-          onChange={(e) =>
-            setActivity({ ...activity, time: e.target.value })
-          }
-        >
-          {times.map((t) => (
-            <option key={t}>{t}</option>
-          ))}
-        </select>
+              <button
+                type="button"
+                className="btn btn-secondary add-btn-cancel"
+                onClick={() => navigate("/timetable")}
+              >
+                ❌ Cancel
+              </button>
+            </div>
+          </form>
 
-        <label className="tt-label">Color</label>
-        <input
-          type="color"
-          className="tt-color"
-          value={activity.color}
-          onChange={(e) =>
-            setActivity({ ...activity, color: e.target.value })
-          }
-        />
-
-        <button className="tt-btn" onClick={addActivity}>
-          Add
-        </button>
+        </div>
       </div>
-
-      {/* RIGHT TABLE */}
-      <TimetableGrid activities={activities} days={days} times={times} />
     </div>
   );
 };

@@ -1,77 +1,156 @@
-import React from 'react'
-import { useEffect, useState } from 'react'
-import axios from 'axios'
-import { Link, useParams } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
+import "./Timetable.css";
 
 const Timetable = () => {
-    const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
     loadUsers();
   }, []);
 
   const loadUsers = async () => {
-    try {
-      const result = await axios.get("http://localhost:8080/users");
-      setUsers(result.data);
-    } catch (error) {
-      console.error("Error fetching users:", error);
-    }
+    const result = await axios.get("http://localhost:8080/users");
+    setUsers(result.data);
   };
-  const deletes = async (id) => {
-  try {
+
+  const deleteUser = async (id) => {
     await axios.delete(`http://localhost:8080/users/${id}`);
-    // Reload users after deletion
     loadUsers();
-  } catch (error) {
-    console.error("Error deleting user:", error);
-  }
-};
+  };
+
+  // PDF
+  const downloadPDF = () => {
+    const doc = new jsPDF();
+    doc.setFontSize(18);
+    doc.text("Student Timetable", 14, 20);
+
+    const columns = ["#", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+
+    const rows = users.map((u, index) => [
+      index + 1,
+      `${u.mondaySubject}\n${u.mondayTeacher}\n${u.mondayLocation}`,
+      `${u.tuesdaySubject}\n${u.tuesdayTeacher}\n${u.tuesdayLocation}`,
+      `${u.wednesdaySubject}\n${u.wednesdayTeacher}\n${u.wednesdayLocation}`,
+      `${u.thursdaySubject}\n${u.thursdayTeacher}\n${u.thursdayLocation}`,
+      `${u.fridaySubject}\n${u.fridayTeacher}\n${u.fridayLocation}`,
+    ]);
+
+    autoTable(doc, {
+      head: [columns],
+      body: rows,
+      startY: 30,
+      styles: { halign: "center" },
+    });
+
+    doc.save("Student_Timetable.pdf");
+  };
 
   return (
-    <div className="container mt-4">
-      <h2 className="text-center mb-4">Student Timetable</h2>
+    <div className="timetable-bg">
+      <div className="container">
+        <div className="timetable-card">
 
-      <table className="table border shadow text-center blue-white-striping">
-        <thead className="table-primary">
-          <tr>
-            <th>#</th>
-            <th>Monday</th>
-            <th>Tuesday</th>
-            <th>Wednesday</th>
-            <th>Thursday</th>
-            <th>Friday</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            users.map((user, index) => (
-              <tr key={index}>
-                <th scope="row">{index + 1}</th>
-                <td>{user.monday}</td>
-                <td>{user.tuesday}</td>
-                <td>{user.wednesday}</td>
-                <td>{user.thursday}</td>
-                <td>{user.friday}</td>
-                <td>
-                    <Link
-                        className="btn btn-sm btn-warning me-2"
-                        to={`/edituser/${user.id}`}
-                      >
-                        <i className="bi bi-pencil-square"></i> update
-                      </Link>
-                    <button className='btn btn-danger' onClick={deletes}>Delete</button>
-                </td>
+          {/* HEADER BUTTONS */}
+          <div className="d-flex justify-content-between align-items-center mb-4">
+            <h2 className="timetable-title">Student Timetable</h2>
+
+            <div>
+              <button
+                className="btn btn-primary btn-download me-2"
+                onClick={downloadPDF}
+              >
+                📄 Download PDF
+              </button>
+
+              <Link to="/add-timetable" className="btn btn-success btn-add">
+                ➕ Add Timetable
+              </Link>
+            </div>
+          </div>
+
+          {/* TABLE */}
+          <table className="table table-bordered table-hover text-center timetable-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Monday</th>
+                <th>Tuesday</th>
+                <th>Wednesday</th>
+                <th>Thursday</th>
+                <th>Friday</th>
+                <th>Action</th>
               </tr>
-            ))
-          }
-        </tbody>
-      </table>
-      <Link to="/add" className="btn btn-primary mt-3">Add More Subjects</Link>
+            </thead>
+
+            <tbody>
+              {users.length === 0 ? (
+                <tr>
+                  <td colSpan="7">No timetable data available</td>
+                </tr>
+              ) : (
+                users.map((user, index) => (
+                  <tr key={user.id}>
+                    <td>{index + 1}</td>
+
+                    <td>
+                      <strong>{user.mondaySubject}</strong><br />
+                      <small>{user.mondayTeacher}</small><br />
+                      <small>{user.mondayLocation}</small>
+                    </td>
+
+                    <td>
+                      <strong>{user.tuesdaySubject}</strong><br />
+                      <small>{user.tuesdayTeacher}</small><br />
+                      <small>{user.tuesdayLocation}</small>
+                    </td>
+
+                    <td>
+                      <strong>{user.wednesdaySubject}</strong><br />
+                      <small>{user.wednesdayTeacher}</small><br />
+                      <small>{user.wednesdayLocation}</small>
+                    </td>
+
+                    <td>
+                      <strong>{user.thursdaySubject}</strong><br />
+                      <small>{user.thursdayTeacher}</small><br />
+                      <small>{user.thursdayLocation}</small>
+                    </td>
+
+                    <td>
+                      <strong>{user.fridaySubject}</strong><br />
+                      <small>{user.fridayTeacher}</small><br />
+                      <small>{user.fridayLocation}</small>
+                    </td>
+
+                    <td>
+                      <Link
+                        to={`/edituser/${user.id}`}
+                        className="btn btn-warning btn-action me-2"
+                      >
+                        ✏️ Update
+                      </Link>
+
+                      <button
+                        className="btn btn-danger btn-action"
+                        onClick={() => deleteUser(user.id)}
+                      >
+                        🗑 Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+
+        </div>
+      </div>
     </div>
-
   );
-}
+};
 
-export default Timetable
+export default Timetable;
